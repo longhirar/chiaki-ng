@@ -1,0 +1,24 @@
+diff --git a/src/vulkan/gpu_tex.c b/src/vulkan/gpu_tex.c
+index a419ffdc..b682a397 100644
+--- a/src/vulkan/gpu_tex.c
++++ b/src/vulkan/gpu_tex.c
+@@ -1191,10 +1191,16 @@ pl_tex pl_vulkan_wrap(pl_gpu gpu, const struct pl_vulkan_wrap_params *params)
+         }                                                                       \
+     } while (0)
+ 
+-    MASK(sampleable,    PL_FMT_CAP_SAMPLEABLE);
+-    MASK(renderable,    PL_FMT_CAP_RENDERABLE);
++    bool dont_mask = !strcmp(fmt->name, "rx10") || !strcmp(fmt->name, "rxgx10");
++
++    if (!dont_mask) {
++        MASK(sampleable,    PL_FMT_CAP_SAMPLEABLE);
++        MASK(renderable,    PL_FMT_CAP_RENDERABLE);
++    }
+     MASK(storable,      PL_FMT_CAP_STORABLE);
+-    MASK(blit_src,      PL_FMT_CAP_BLITTABLE);
++    if (!dont_mask) {
++        MASK(blit_src,      PL_FMT_CAP_BLITTABLE);
++    }
+     MASK(blit_dst,      PL_FMT_CAP_BLITTABLE);
+     MASK(host_readable, PL_FMT_CAP_HOST_READABLE);
+ #undef MASK
