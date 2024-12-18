@@ -3,6 +3,7 @@
 #include <streamsession.h>
 #include <settings.h>
 #include <controllermanager.h>
+#include <inttypes.h>
 
 #include <chiaki/base64.h>
 #include <chiaki/streamconnection.h>
@@ -1629,9 +1630,15 @@ void StreamSession::PushHapticsFrame(uint8_t *buf, size_t buf_size)
 #endif
 					continue;
 				if(left > right)
+				{
 					controller->SetHapticRumble(left, left, 10);
+					CHIAKI_LOGI(GetChiakiLog(), "Sent 10ms haptic rumble with intensity %" PRIu16, left);
+				}
 				else
+				{
 					controller->SetHapticRumble(right, right, 10);
+					CHIAKI_LOGI(GetChiakiLog(), "Sent 10ms haptic rumble with intensity %" PRIu16, right);
+				}
 			}
 		});
 		return;
